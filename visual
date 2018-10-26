@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>保康大屏可视化</title>
+    <link rel="stylesheet" href="css/font-awesome-4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="css/index.css">
+    <!--<link rel="stylesheet" href="css/CircuralProgressBar.css">-->
+    <!--<link rel="stylesheet" href="css/heatBar/custom-bars.css">-->
+    <!--<link rel="stylesheet" href="css/heatBar/component.css">-->
+
+    <script src="dist/jquery-3.3.1.min.js"></script>
+    <script src="dist/echarts.min.js"></script>
+    <script src="js/index.js"></script>
+    <!--<script type="text/javascript" src="${ctx}/res/js/echarts/echarts.js"></script>-->
+    <!--<script type="text/javascript" src="js/MyEcharts.js"></script>-->
+
+</head>
+<body>
+<div class="all">
+    <div class="top">
+        <span class="title"><h3>保康县城市管理数据分析演示平台</h3></span>
+        <div></div>
+        <div class="circle"  id="top-left"></div>
+        <div class="top-right">
+            <input class="btn" type="button" value="数据汇总">
+            <input class="btn" type="button" value="数据汇总" id="btn2">
+            <i class="fa fa-th" style="margin-left: 20px"></i>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="left">
+        <div class="left1">
+            <h5 style="display: inline-block">受理案件总量</h5>
+            <!--<span><i class="fa fa-angle-right"></i></span>-->
+            <span class="fa-stack fa-lg">
+                <i class="fa fa-square-o fa-stack-1x"></i>
+                <i class="fa fa-angle-right fa-stack-1x"></i>
+            </span>
+            <div class="left12">127645</div>
+        </div>
+        <div class="left2">
+            <h5 style="display: inline-block">受理案件</h5>
+            <!--<span><i class="fa fa-angle-right"></i></span>-->
+            <span class="fa-stack fa-lg">
+                <i class="fa fa-square-o fa-stack-1x"></i>
+                <i class="fa fa-angle-right fa-stack-1x"></i>
+            </span>
+            <div class="pie" id="pie"></div>
+            <script>
+                //绘制饼图（左2）
+                var myChart1 = echarts.init(document.getElementById('pie'));
+                option = {
+                    // title : {
+                    //     text: '某站点用户访问来源',
+                    //     subtext: '纯属虚构',
+                    //     x:'center'
+                    // },
+                    tooltip : {
+                        trigger: 'item',
+                        formatter: "{a} <br/>{b} : {c} ({d}%)",
+                        textStyle: {
+                            fontSize: 13 ,
+                            color: '#3398DB',
+                            // align:'right',
+                            align:'left',
+                        },
+                        //设置提示框的位置
+                        position: function(point, params, dom, rect, size){
+                            //其中point为当前鼠标的位置，size中有两个属性：viewSize和contentSize，分别为外层div和tooltip提示框的大小
+                              var x = point[0];
+                              var y = point[1];
+                              var viewWidth = size.viewSize[0];
+                              var viewHeight = size.viewSize[1];
+                              var boxWidth = size.contentSize[0];
+                              var boxHeight = size.contentSize[1];
+                              var posX = 0;//x坐标位置
+                              var posY = 0;//y坐标位置
+                             if(x<boxWidth){
+                                 //左边放不开
+                                 posX = 150;
+                             }else{
+                                 //左边放的下
+                                 posX = x-boxWidth;
+                             }
+                            if(y<boxHeight){//上边放不开
+                                posY = 5;
+                             }else{
+                                 //上边放得下
+                                posY = y-boxHeight;
+                             }
+                            return [posX,posY];
+                             }
+                    },
+                    legend: {
+                        orient: 'vertical',
+                        // left: 'left',
+                        x: 'right',
+                        data: ['直接访问','邮件营销','联盟广告','视频广告','搜索引擎'],
+                        textStyle: {
+                            fontSize: 8 ,
+                            color: '#ffffff'
+                        },
+
+                    },
+                    series : [
+                        {
+                            name: '访问来源',
+                            type: 'pie',
+                            radius : '55%',
+                            // center: ['50%', '60%'],
+                            center: [100, 50],
+                            data:[
+                                {value:335, name:'直接访问'},
+                                {value:310, name:'邮件营销'},
+                                {value:234, name:'联盟广告'},
+                                {value:135, name:'视频广告'},
+                                {value:1548, name:'搜索引擎'}
+                            ],
+                            label:{
+                                textStyle: {
+                                    fontSize: 8 ,
+                                    color: '#ffffff'
+                                },
+                            },
+                            itemStyle: {
+                                emphasis: {
+                                    shadowBlur: 10,
+                                    shadowOffsetX: 0,
+                                    shadowColor: 'rgba(0, 0, 0, 0.5)',
+                                }
+                            }
+                        }
+                    ]
+                };
+                myChart1.setOption(option);
+            </script>
+        </div>
+        <div class="left3">
+            <h5 style="display: inline-block">市民热线受理总量</h5>
+            <!--<span><i class="fa fa-angle-right"></i></span>-->
+            <span class="fa-stack fa-lg">
+                <i class="fa fa-square-o fa-stack-1x"></i>
+                <i class="fa fa-angle-right fa-stack-1x"></i>
+            </span>
+            <div class="left32">127645</div>
+        </div>
+        <div class="left4">
+            <h5 style="display: inline-block">市民热线问题类型TOPS</h5>
+            <!--<span><i class="fa fa-angle-right"></i></span>-->
+            <span class="fa-stack fa-lg">
+                <i class="fa fa-square-o fa-stack-1x"></i>
+                <i class="fa fa-angle-right fa-stack-1x"></i>
+            </span>
+            <!--//热棒（左4）-->
+            <!--<p style="font-size: 10px">全市通话服务 3800</p>-->
+            <!--<hr style="width: 100px;height: 10px;background-color: #D7FF00;float: left"><hr style="width: 100px;height: 10px;background-color: white;float: left">-->
+            <!--<div class="clear"></div>-->
+            <!--<p style="font-size: 10px">全市通话服务 3800</p>-->
+            <!--<hr style="width: 100px;height: 10px;background-color: #D7FF00;float: left"><hr style="width: 100px;height: 10px;background-color: white;float: left">-->
+            <!--<div class="clear"></div>-->
+            <!--<p style="font-size: 10px">全市通话服务 3800</p>-->
+            <!--<hr style="width: 100px;height: 10px;background-color: #D7FF00;float: left"><hr style="width: 100px;height: 10px;background-color: white;float: left">-->
+            <!--<div class="clear"></div>-->
+            <!--<p style="font-size: 10px">全市通话服务 3800</p>-->
+            <!--<hr style="width: 100px;height: 10px;background-color: #D7FF00;float: left"><hr style="width: 100px;height: 10px;background-color: white;float: left">-->
+            <!--<div class="clear"></div>-->
+            <!--<p style="font-size: 10px">全市通话服务 3800</p>-->
+            <!--<hr style="width: 100px;height: 10px;background-color: #D7FF00;float: left"><hr style="width: 100px;height: 10px;background-color: white;float: left">-->
+            <!--<br>-->
+            <!--<div class="clear"></div>-->
+            <p style="font-size: 10px">全国通话服务</p>
+            <div class="heat-bar">
+                <div class="heat-bar1"></div>
+                <div class="heat-bar2"></div>
+            </div>
+            <p style="font-size: 10px">全国通话服务</p>
+            <div class="heat-bar">
+                <div class="heat-bar1"></div>
+                <div class="heat-bar2"></div>
+            </div>
+            <p style="font-size: 10px">全国通话服务</p>
+            <div class="heat-bar">
+                <div class="heat-bar1"></div>
+                <div class="heat-bar2"></div>
+            </div>
+            <p style="font-size: 10px">全国通话服务</p>
+            <div class="heat-bar">
+                <div class="heat-bar1"></div>
+                <div class="heat-bar2"></div>
+            </div>
+
+        </div>
+        <div class="left5">
+            <h5 style="display: inline-block">今日案件</h5>
+            <!--<span><i class="fa fa-angle-right"></i></span>-->
+            <span class="fa-stack fa-lg">
+                <i class="fa fa-square-o fa-stack-1x"></i>
+                <i class="fa fa-angle-right fa-stack-1x"></i>
+            </span>
+
+            <!--//圆形进度条-->
+            <div id="chart4" style="width: 100px;height: 100px;"></div>
+            <script>
+                var e=80;  
+                var Chart4 = echarts.init(document.getElementById('chart4'));
+                option = {
+                    title:{
+                        show:true,
+                        text:e+'%',
+                        x:'center',
+                        y:'center',
+                        textStyle: {
+                            fontSize: '15',
+                            color:'white',
+                            fontWeight: 'normal'
+                        }		       },
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: "{d}%",
+                        show:false
+                    },
+                    legend: {
+                        orient: 'vertical',
+                        x: 'left',
+                        show:false
+                    },
+                    series:
+                        {
+                            name:'',
+                            type:'pie',
+                            radius: ['65%', '85%'],
+                            avoidLabelOverlap: true,
+                            hoverAnimation:false,
+                            label: {
+                                normal: {
+                                    show: false,
+                                    position: 'center'
+                                },
+                                emphasis: {
+                                    show: false
+                                }
+                                },
+                            labelLine: {
+                                normal: {
+                                    show: false
+                                }
+                                },
+                            data:[
+                                {value:e, name:''},
+                                {value:100-e, name:''}
+                                ]		        }
+                };
+                Chart4.setOption(option);
+
+
+            </script>
+        </div>
+        <!--<i class="fa fa-camera-retro fa-2x"></i> fa-2x-->
+
+
+        <!--<i class="fa fa-camera-retro"></i> fa-camera-retro-->
+
+
+        <!--<div class="fa-pulse" style="width: 100px;height: 100px;background-color: red"></div>-->
+    </div>
+    <div class="center">
+        <div class="center-top">
+            <!--<i class="fa fa-spinner fa-spin"></i>-->
+            <!--<i class="fa fa-circle-o-notch fa-spin"></i>-->
+            <!--<i class="fa fa-refresh fa-spin"></i>-->
+            <!--<i class="fa fa-cog fa-spin"></i>-->
+            <!--<span style="width: 100px;height: 100px;font-size: 50px"></span>-->
+            <!--<i class="fa fa-spinner fa-pulse fa-5x"></i>-->
+            <!--<div id="load">-->
+                <!--<p>loading</p>-->
+            <!--</div>-->
+            <div id="caseBlanche">
+                <div id="rond">
+                    <div id="test"></div>
+                </div>
+                <div id="load">
+                    实制预警<br>
+                    正则运行
+                </div>
+            </div>
+            <div class="center-circle">
+                正常
+            </div>
+            <div class="center-circle">
+                正常
+            </div>
+            <div class="center-circle">
+                正常
+            </div>
+        </div>
+        <div class="map" id="map1"></div>
+    </div>
+    <div class="right">
+        <div class="right2">
+            <div class="right11">
+                <h5>执法队员实时分布</h5>
+                <div id="map2" class="map"></div>
+                <script>
+                    // $.get('dist/BaoKangMap.json', function (chinaJson) {
+                    //     echarts.registerMap('BaoKang', chinaJson); // 注册地图
+                    //     var mapChart = echarts.init(document.getElementById('map2'));
+                    //
+                    //     var z=200;
+                    //     var myData = [
+                    //         // {name: '海门', value: [121.15, 31.89, 90]},    //经度、纬度、数值
+                    //         // {name: '鄂尔多斯', value: [109.781327, 39.608266, 120]},
+                    //         // {name: '招远', value: [120.38, 37.35, 142]},
+                    //         // {name: '舟山', value: [122.207216, 29.985295, 123]},
+                    //         {name: '标记点1', value: [ 111.047345, 31.423843, 123]},//经度、纬度、数值
+                    //         {name: '标记点2', value: [ 110.902345, 31.8679811835938, 10]},
+                    //         {name: '标记点3', value: [  111.123985625, 32.047202375, z]},
+                    //         // {name: '舟山', value: [122.207216, 29.985295, 200]},
+                    //         // {name: '舟山', value: [122.207216, 29.985295, z]},
+                    //     ]
+                    //
+                    //     var option = {
+                    //         geo: {
+                    //             map: 'BaoKang',
+                    //
+                    //             itemStyle: {					// 定义样式
+                    //                 normal: {					// 普通状态下的样式
+                    //                     areaColor: '#4f9fcf',
+                    //                     borderColor: '#111'
+                    //                 },
+                    //                 // emphasis: {					// 高亮状态下的样式
+                    //                 //     areaColor: 'yellow'
+                    //                 // }
+                    //             }
+                    //         },
+                    //         visualMap: {
+                    //             min: 0, //最小
+                    //             max: 300,//最大
+                    //             splitNumber: 5,//共分5层
+                    //             color: ['#ff6300','#eac736','#50a3ba'],//颜色从高到低依次渐变
+                    //             textStyle: {
+                    //                 color: '#fff',
+                    //                 fontSize:8,
+                    //             }
+                    //         },
+                    //         // backgroundColor: '#404a59',
+                    //         series: [
+                    //             {
+                    //                 name: '销量',
+                    //                 type: 'scatter',
+                    //                 coordinateSystem: 'geo',
+                    //                 data: myData // series数据内容
+                    //             }
+                    //         ]
+                    //     }
+                    //     mapChart.setOption(option);
+                    // });
+                </script>
+            </div>
+            <div class="right12">
+                <h5>128人</h5>
+                <div class="map"></div>
+            </div>
+        </div>
+        <div class="right2">
+            <div class="right21">
+                <h5>保洁人员实时分布</h5>
+                <div id="map3" class="map"></div>
+            </div>
+            <div class="right22"></div>
+        </div>
+        <div class="right2">
+            <div class="right31">
+                <h5>运输管理</h5>
+                <div class=""></div>
+            </div>
+            <div class="right32" id="bar"></div>
+            <script>
+                var chartbar = echarts.init(document.getElementById('bar'));
+                // var chartbar=document.getElementById('bar');
+                option = {
+                    xAxis: {
+                        type: 'category',
+                        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                    },
+                    yAxis: {
+                        type: 'value'
+                    },
+                    series: [{
+                        data: [120, 200, 150, 80, 70, 110, 130],
+                        type: 'bar'
+                    }]
+                };
+                chartbar.setOption(option);
+            </script>
+        </div>
+        <div class="right2">
+            <div class="right41">
+                <p><h5>路灯统计</h5></p>
+                <div class="line-bar-div">
+                    <div class="line-bar">
+                        <div class="line-bar1"></div>
+                        <div class="line-bar2"></div>
+                    </div>
+                </div>
+                <div class="line-bar-div">
+                    <div class="line-bar">
+                        <div class="line-bar1"></div>
+                        <div class="line-bar2"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="right42">
+                <div class="line-bar-div">
+                    <div class="line-bar">
+                        <div class="line-bar1"></div>
+                        <div class="line-bar2"></div>
+                    </div>
+                </div>
+                <div class="line-bar-div">
+                    <div class="line-bar">
+                        <div class="line-bar1"></div>
+                        <div class="line-bar2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
